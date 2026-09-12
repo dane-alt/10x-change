@@ -77,7 +77,7 @@
   </form>
 
   <h2>Be first to use it</h2>
-  <p>The app is in build. To be told when it is ready, send a note and the word <em>change</em> by <a id="mail" href="#">email</a>.</p>
+  <p>The app is in build. To be told when it is ready, send a note and the word <em>change</em> by <a href="mailto:dane@happinessdata.org?subject=10X%20Change&amp;body=change">email</a>.</p>
 
   <footer>10X Change is a project of Happiness Data, a nonprofit. Written by Dane E. Rose.</footer>
 </main>
@@ -95,13 +95,6 @@
     });
     g.innerHTML=svg;
   })();
-
-  // build mailto on click so the address is not sitting in plain page text for scrapers
-  document.getElementById('mail').addEventListener('click',function(e){
-    e.preventDefault();
-    const addr=['dane','happinessdata.org'].join('@');
-    window.location.href='mailto:'+addr+'?subject='+encodeURIComponent('10X Change')+'&body=change';
-  });
 
   const bodies=['Physical','Mental','Emotional','Spiritual','Relational','Financial','Contextual'];
   const rows=document.getElementById('rows');
