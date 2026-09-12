@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10X Change — the companion to Psyche</title>
+<style>
+  :root{
+    --ink:#2B1F5C; --blue:#2F6FB5; --violet:#6A3FB5; --pale:#EEF0FA; --paper:#FFFFFF; --mute:#6B6880;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--paper)}
+  body{margin:0;font-family:Georgia,"Times New Roman",serif;color:var(--ink);line-height:1.6;font-size:18px}
+  main{max-width:640px;margin:0 auto;padding:0 24px 96px}
+  header{padding:48px 0 24px}
+  .hero{display:grid;grid-template-columns:1fr;gap:24px;align-items:center}
+  @media(min-width:720px){.hero{grid-template-columns:220px 1fr}}
+  .circle{width:200px;height:200px;margin:0 auto}
+  h1{font-size:44px;line-height:1.05;margin:0 0 12px;font-weight:normal;letter-spacing:-.01em}
+  .sub{font-size:20px;font-style:italic;color:var(--violet);margin:0 0 8px}
+  p{margin:0 0 20px}
+  h2{font-size:24px;font-weight:normal;margin:56px 0 12px;border-bottom:2px solid var(--pale);padding-bottom:6px}
+  ol{padding-left:22px}
+  li{margin-bottom:10px}
+  .body-row{display:grid;grid-template-columns:130px 1fr 48px;gap:12px;align-items:center;margin-bottom:14px}
+  .body-row label{font-size:17px}
+  input[type=range]{width:100%;accent-color:var(--violet)}
+  .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--mute)}
+  textarea{width:100%;font:inherit;font-size:17px;padding:12px;border:2px solid var(--pale);border-radius:8px;min-height:90px;color:var(--ink)}
+  textarea:focus,input:focus,button:focus{outline:3px solid var(--blue);outline-offset:2px}
+  button{font:inherit;font-size:18px;background:var(--violet);color:#fff;border:0;border-radius:8px;padding:12px 20px;cursor:pointer}
+  button.quiet{background:var(--pale);color:var(--ink)}
+  .result{margin-top:24px;padding:20px;background:var(--pale);border-radius:10px}
+  .result strong{font-size:40px;display:block;line-height:1;margin-bottom:8px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+  footer{margin-top:72px;color:var(--mute);font-size:15px}
+  a{color:var(--blue)}
+  @media(prefers-reduced-motion:no-preference){.circle line{transition:opacity .4s}}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <svg class="circle" viewBox="0 0 200 200" role="img" aria-label="A circle made of crossing blue and violet lines">
+      <defs><clipPath id="c"><circle cx="100" cy="100" r="96"/></clipPath></defs>
+      <g clip-path="url(#c)" stroke-width="1.1" fill="none" id="lines"></g>
+    </svg>
+    <div>
+      <p class="sub">The companion to <em>Psyche: The Archaeology of Self</em></p>
+      <h1>10X Change</h1>
+      <p>An app that remembers what you decided to change, shows you whether you are changing, and makes the next thirty seconds easy.</p>
+    </div>
+  </header>
+
+  <p>Most people who read a book about the self finish it, decide to do something, and lose the thread within two weeks. The old loops keep running underneath the new practice until the practice fades into the background. 10X Change is built for that reality. It keeps a map of who you are across seven bodies, lets you change one thing per week, measures the shift, and celebrates every percentage point.</p>
+
+  <h2>How a week works</h2>
+  <ol>
+    <li>Choose one action for the week from your own top three.</li>
+    <li>Mark last week's action: keep it, let it coast, or let it go.</li>
+    <li>Answer a ten-second question a few times a day, and do one thirty-second thing when asked.</li>
+    <li>Each night, tell the app the high and low of the day. It listens and remembers.</li>
+    <li>On Sunday, see how far you have come, what moved it, and what is likely next.</li>
+  </ol>
+
+  <h2>Your baseline map, in two minutes</h2>
+  <p>Rate where each body stands today. Zero is as far from your possible self as you can imagine; one hundred is already there. Nothing here is sent anywhere; copy the result to keep it.</p>
+  <form id="map" onsubmit="return false">
+    <div id="rows"></div>
+    <label for="goal" style="display:block;margin:20px 0 8px">In your own words, what do you actually want?</label>
+    <textarea id="goal" placeholder="For example: to be in a positive state that touches other people, alive and present in my body."></textarea>
+    <div class="row">
+      <button type="button" id="show">Show my baseline</button>
+      <button type="button" class="quiet" id="copy" hidden>Copy my baseline</button>
+    </div>
+    <div class="result" id="result" hidden></div>
+  </form>
+
+  <h2>Be first to use it</h2>
+  <p>The app is in build. To be told when it is ready, send a note and the word <em>change</em> to <a id="mail" href="mailto:hello@example.com?subject=10X%20Change">hello@example.com</a>.</p>
+
+  <footer>10X Change is a project of Happiness Data, a nonprofit. Written by Dane E. Rose.</footer>
+</main>
+
+<script>
+  // interference circle
+  (function(){
+    const g=document.getElementById('lines');
+    const sets=[{a:0,s:9,c:'#2F6FB5',o:.55},{a:23,s:11,c:'#6A3FB5',o:.5},{a:-31,s:8,c:'#2B1F5C',o:.35},{a:64,s:13,c:'#8A63D6',o:.45}];
+    let svg='';
+    sets.forEach(t=>{
+      for(let i=-200;i<400;i+=t.s){
+        svg+=`<g transform="rotate(${t.a} 100 100)"><line x1="${i}" y1="-100" x2="${i}" y2="300" stroke="${t.c}" opacity="${t.o}"/></g>`;
+      }
+    });
+    g.innerHTML=svg;
+  })();
+
+  const bodies=['Physical','Mental','Emotional','Spiritual','Relational','Financial','Contextual'];
+  const rows=document.getElementById('rows');
+  bodies.forEach((b,i)=>{
+    rows.insertAdjacentHTML('beforeend',
+      `<div class="body-row"><label for="b${i}">${b}</label><input id="b${i}" type="range" min="0" max="100" value="50" oninput="document.getElementById('v${i}').textContent=this.value"><span class="val" id="v${i}">50</span></div>`);
+  });
+  let last='';
+  document.getElementById('show').onclick=()=>{
+    const vals=bodies.map((b,i)=>[b,+document.getElementById('b'+i).value]);
+    const avg=Math.round(vals.reduce((s,v)=>s+v[1],0)/vals.length);
+    const lowest=[...vals].sort((a,b)=>a[1]-b[1])[0];
+    const goal=document.getElementById('goal').value.trim();
+    const date=new Date().toISOString().slice(0,10);
+    last=`10X Change baseline — ${date}\nOverall: ${avg}% toward my possible self\n`+vals.map(v=>`${v[0]}: ${v[1]}%`).join('\n')+(goal?`\nWhat I want: ${goal}`:'');
+    const r=document.getElementById('result');
+    r.innerHTML=`<strong>${avg}%</strong>toward your possible self, as of ${date}. The body with the most room is <em>${lowest[0]}</em> at ${lowest[1]}%. That is where one small action this week will show the most.`;
+    r.hidden=false; document.getElementById('copy').hidden=false;
+  };
+  document.getElementById('copy').onclick=async(e)=>{
+    try{await navigator.clipboard.writeText(last);e.target.textContent='Copied';}catch{e.target.textContent='Select and copy the text above';}
+  };
+</script>
+</body>
+</html>
